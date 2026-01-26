@@ -1,11 +1,28 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import { getHomeData } from "../lib/airtable";
+import ServicesGrid from "../components/ServicesGrid.astro";
+import ContactBar from "../components/ContactBar.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const { city, groups } = await getHomeData("moskva"); // дефолт Москва
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title={`Услуги 1С в ${city.name} — внедрение, сопровождение, обучение`}
+  description={`Программисты 1С, поддержка, обучение и продукты 1С в ${city.name}. Консультация прямо сейчас.`}
+>
+  <ContactBar city={city} />
+
+  <section class="hero">
+    <h1>{city.hero_title ?? "Проконсультируем прямо сейчас!"}</h1>
+    <p class="quote">{city.hero_quote}</p>
+    <a class="cta" href="#callback">{city.hero_cta_text ?? "Закажи звонок"}</a>
+  </section>
+
+  <ServicesGrid title="Купить программу 1С" items={groups.products} basePath="/uslugi" />
+  <ServicesGrid title="Обучение 1С" items={groups.training} basePath="/uslugi" />
+  <ServicesGrid title="Услуги и поддержка 1С" items={groups.support} basePath="/uslugi" />
+  <ServicesGrid title="Программисты 1С" items={groups.dev} basePath="/uslugi" />
+
+  <!-- Ниже аналогично подключишь Projects, FAQ, Reviews, Promos из Airtable -->
 </Layout>

@@ -9,6 +9,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.16.15"
+    "airtable": "^0.12.2",
+    "astro": "^5.16.15",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.7.0"
   }
 }
