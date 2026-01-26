@@ -1,28 +1,48 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import { getHomeData } from "../lib/airtable";
-import ServicesGrid from "../components/ServicesGrid.astro";
-import ContactBar from "../components/ContactBar.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getHome } from "../lib/airtable";
 
-const { city, groups } = await getHomeData("moskva"); // дефолт Москва
+const data = await getHome("moskva");
 ---
-
-<Layout
-  title={`Услуги 1С в ${city.name} — внедрение, сопровождение, обучение`}
-  description={`Программисты 1С, поддержка, обучение и продукты 1С в ${city.name}. Консультация прямо сейчас.`}
+<BaseLayout
+  title={`Услуги 1С в ${data.city}`}
+  description={`Программы 1С, внедрение, обучение и программисты 1С в ${data.city}`}
+  canonical="https://1s-moskva.programister.ru/"
 >
-  <ContactBar city={city} />
 
-  <section class="hero">
-    <h1>{city.hero_title ?? "Проконсультируем прямо сейчас!"}</h1>
-    <p class="quote">{city.hero_quote}</p>
-    <a class="cta" href="#callback">{city.hero_cta_text ?? "Закажи звонок"}</a>
-  </section>
+<header class="header">
+  <img src="/img/logo.png" alt="Programister" />
+  <a href={`tel:${data.phone}`} class="phone">{data.phone}</a>
+</header>
 
-  <ServicesGrid title="Купить программу 1С" items={groups.products} basePath="/uslugi" />
-  <ServicesGrid title="Обучение 1С" items={groups.training} basePath="/uslugi" />
-  <ServicesGrid title="Услуги и поддержка 1С" items={groups.support} basePath="/uslugi" />
-  <ServicesGrid title="Программисты 1С" items={groups.dev} basePath="/uslugi" />
+<section class="hero">
+  <h1>{data.hero_title}</h1>
+  <p>{data.hero_subtitle}</p>
+</section>
 
-  <!-- Ниже аналогично подключишь Projects, FAQ, Reviews, Promos из Airtable -->
-</Layout>
+<section class="actions">
+  <h2>Акции</h2>
+  {data.actions.map(a => (
+    <div class="action">
+      <img src={a.image} alt={a.title} />
+      <p>{a.title}</p>
+    </div>
+  ))}
+</section>
+
+<section class="faq">
+  <h2>Вопросы по 1С</h2>
+  {data.faq.map(f => (
+    <details>
+      <summary>{f.q}</summary>
+      <p>{f.a}</p>
+    </details>
+  ))}
+</section>
+
+<footer>
+  <img src="/img/logo-footer.png" />
+  <p>{data.address}</p>
+</footer>
+
+</BaseLayout>

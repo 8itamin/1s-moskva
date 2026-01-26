@@ -1,77 +1,33 @@
-import { z } from "zod";
+const TOKEN = import.meta.env.AIRTABLE_TOKEN;
+const BASE = import.meta.env.AIRTABLE_BASE;
 
-const AIRTABLE_TOKEN = import.meta.env.AIRTABLE_TOKEN;
-const AIRTABLE_BASE = import.meta.env.AIRTABLE_BASE;
-const API_URL = import.meta.env.AIRTABLE_API_URL ?? "https://api.airtable.com/v0";
-
-if (!AIRTABLE_TOKEN || !AIRTABLE_BASE) {
-  throw new Error("Missing AIRTABLE_TOKEN or AIRTABLE_BASE in .env");
-}
-
-type AirtableRecord<T> = { id: string; fields: T };
-
-async function airtableList<TFields>(
-  table: string,
-  params: Record<string, string> = {}
-): Promise<AirtableRecord<TFields>[]> {
-  const url = new URL(`${API_URL}/${AIRTABLE_BASE}/${encodeURIComponent(table)}`);
-  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
+async function list(table: string, filter?: string) {
+  const url = new URL(`https://api.airtable.com/v0/${BASE}/${table}`);
+  if (filter) url.searchParams.set("filterByFormula", filter);
 
   const res = await fetch(url.toString(), {
-    headers: { Authorization: `Bearer ${AIRTABLE_TOKEN}` },
+    headers: { Authorization: `Bearer ${TOKEN}` }
   });
-  if (!res.ok) throw new Error(`Airtable error ${res.status}: ${await res.text()}`);
+
   const json = await res.json();
-  return json.records as AirtableRecord<TFields>[];
+  return json.records.map((r: any) => r.fields);
 }
 
-/** ---- Schemas (пример) ---- */
-export const CitySchema = z.object({
-  slug: z.string(),
-  name: z.string(),
-  phone_main: z.string().optional(),
-  phone_city: z.string().optional(),
-  email: z.string().optional(),
-  address: z.string().optional(),
-  work_hours: z.string().optional(),
-  messengers: z.string().optional(),
-  hero_quote: z.string().optional(),
-  hero_title: z.string().optional(),
-  hero_cta_text: z.string().optional(),
-});
+export async function getHome(citySlug: string) {
+  const cities = await list("Cities", `{slug}='${citySlug}'`);
+  const city = cities?.[0];
 
-export type City = z.infer<typeof CitySchema> & { id: string };
+  const actions = await list("Actions", `{city}='${citySlug}'`);
+  const faq = await list("FAQ", `{city}='${citySlug}'`);
 
-export async function getCities(): Promise<City[]> {
-  const records = await airtableList<any>("Cities", { "sort[0][field]": "name" });
-  return records.map(r => ({ id: r.id, ...CitySchema.parse(r.fields) }));
-}
-
-export const ServiceSchema = z.object({
-  slug: z.string(),
-  name: z.string(),
-  group: z.string(),
-  short: z.string().optional(),
-  content: z.string().optional(),
-  priority: z.number().optional(),
-});
-
-export type Service = z.infer<typeof ServiceSchema> & { id: string };
-
-export async function getServices(): Promise<Service[]> {
-  const records = await airtableList<any>("Services", { "sort[0][field]": "priority" });
-  return records.map(r => ({ id: r.id, ...ServiceSchema.parse(r.fields) }));
-}
-
-export async function getHomeData(citySlug: string) {
-  // упрощённо: берём город + списки услуг по group
-  const [cities, services] = await Promise.all([getCities(), getServices()]);
-  const city = cities.find(c => c.slug === citySlug) ?? cities[0];
-  const groups = {
-    products: services.filter(s => s.group === "products"),
-    training: services.filter(s => s.group === "training"),
-    support: services.filter(s => s.group === "support"),
-    dev: services.filter(s => s.group === "dev"),
+  return {
+    city: city?.name ?? "Москва",
+    phone: city?.phone ?? "",
+    address: city?.address ?? "",
+    hero_title: city?.hero_title ?? "Проконсультируем прямо сейчас!",
+    hero_subtitle: city?.hero_subtitle ?? "",
+    actions: Array.isArray(actions) ? actions : [],
+    faq: Array.isArray(faq) ? faq : [],
   };
-  return { city, groups };
 }
+
