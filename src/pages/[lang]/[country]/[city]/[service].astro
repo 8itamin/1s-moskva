@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { getLangCountryStaticPaths } from "../../../../lib/seo/staticPaths";
+import { getServicesByLangCountry } from "../../../../lib/airtable/pages";
+import { getLangCountryCityStaticPaths } from "../../../../lib/seo/staticPathsCity";
+
+export const getStaticPaths = getLangCountryCityStaticPaths;
+const SITE = "https://programister.ru";
+
+
+const { lang, country } = Astro.params;
+const services = await getServicesByLangCountry({ lang, country }); // все вернем
+
+const canonical = `${SITE}/${lang}/${country}/services/`;
+---
+
+<BaseLayout
+  title={`Услуги 1С — ${lang.toUpperCase()} / ${country.toUpperCase()} | Programister`}
+  description="Все услуги 1С: программисты, внедрение, сопровождение, обучение."
+  canonical={canonical}
+>
+  <main class="container">
+    <h1>Услуги</h1>
+
+    <ul>
+      {(services ?? []).map((s) => (
+        <li>
+          <a href={`/${lang}/${country}/services/${s.slug}/`}>
+            {s.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>

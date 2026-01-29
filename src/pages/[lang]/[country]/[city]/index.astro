@@ -1,9 +1,17 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
-import { getHome, getRandomStatement } from "../lib/airtable";
+import { getHome, getRandomStatement, getLangCountryCityPaths } from "../../../../lib/airtable";
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
 
+export const prerender = true;
+
+export async function getStaticPaths() {
+  return await getLangCountryCityPaths();
+}
+
+const { lang, country, city } = Astro.params;
 const data = await getHome("1s-moskva");
 const statements = await getRandomStatement("1s-moskva")
+
 ---
 <BaseLayout
   title={`Услуги 1С в ${data.city}`}
@@ -19,13 +27,13 @@ const statements = await getRandomStatement("1s-moskva")
       <div class="top__box d-flex">
         <div class="top__language d-flex">
           <a href="#" class="top__img">
-            <img src="img/russia_flag.jpg" alt="">
+            <img src="/img/russia_flag.jpg" alt="">
           </a>
           <a href="#" class="top__img">
-            <img src="img/usa_flag.jpg" alt="">
+            <img src="/img/usa_flag.jpg" alt="">
           </a>
           <a href="#" class="top__img">
-            <img src="img/china_flag.jpg" alt="">
+            <img src="/img/china_flag.jpg" alt="">
           </a>
           <p class="top__offer">
             {statements}
@@ -33,11 +41,11 @@ const statements = await getRandomStatement("1s-moskva")
         </div>
         <div class="top__flex d-flex">
           <a href="#" class="top__link">
-            <img src="img/mail.svg" alt="">
+            <img src="/img/mail.svg" alt="">
             <span>Написать директору</span>
           </a>
           <a href="#" class="top__link">
-            <img src="img/user.svg" alt="">
+            <img src="/img/user.svg" alt="">
             <span>Личный кабинет</span>
             
           </a>
@@ -49,7 +57,7 @@ const statements = await getRandomStatement("1s-moskva")
     <div class="container">
       <div class="nav__top d-flex">
         <a href="index.html" class="nav__logo">
-          <img src="img/logo.png" alt="">
+          <img src="/img/logo.png" alt="">
         </a>
         <div class="nav__contacts d-flex">
           <div class="nav__phone d-flex">
@@ -57,20 +65,20 @@ const statements = await getRandomStatement("1s-moskva")
               Москва
             </div>
             <a href="tel:4951280400" class="nav__call">
-              <img src="img/call-violet.svg" alt="">(495) 128-04-00
+              <img src="/img/call-violet.svg" alt="">(495) 128-04-00
             </a>
           </div>
           <div class="nav__social d-flex">
-            <a href="#"><img src="img/viber.svg" alt=""></a>
-            <a href="#"><img src="img/whatsapp.svg" alt=""></a>
-            <a href="#"><img src="img/telegram.svg" alt=""></a>
+            <a href="#"><img src="/img/viber.svg" alt=""></a>
+            <a href="#"><img src="/img/whatsapp.svg" alt=""></a>
+            <a href="#"><img src="/img/telegram.svg" alt=""></a>
             <a href="tel:89585825848" class="nav__coll">
               8 (958) 582-58-48
             </a>
           </div>
           <div class="nav__tel">
             <a href="mail:moscow@programister.ru" class="nav__mail">
-              <img src="img/mails.svg" alt="">
+              <img src="/img/mails.svg" alt="">
               <span>moscow@programister.ru</span>
             </a>
           </div>
@@ -86,7 +94,7 @@ const statements = await getRandomStatement("1s-moskva")
         </h1>
         <form action="success.php" class="header__form" method="post">
           <input type="text" name="tel" required="" placeholder="+49(___)"  class="form-control form__field">
-          <button class="header__btn bttn" data-submit><img src="img/call.svg" alt="">Закажи звонок</button>
+          <button class="header__btn bttn" data-submit><img src="/img/call.svg" alt="">Закажи звонок</button>
         </form>
         <div class="header__social">
           <p class="header__ask">
@@ -94,13 +102,13 @@ const statements = await getRandomStatement("1s-moskva")
           </p>
           <div class="header__soc d-flex">
             <a href="tel:89585825848">
-              <img src="img/telegram.svg" alt="">
+              <img src="/img/telegram.svg" alt="">
             </a>
             <a href="tel:89585825848">
-              <img src="img/viber.svg" alt="">
+              <img src="/img/viber.svg" alt="">
             </a>
             <a href="tel:89585825848">
-              <img src="img/whatsapp.svg" alt="">
+              <img src="/img/whatsapp.svg" alt="">
             </a>
           </div>
         </div>
@@ -108,15 +116,15 @@ const statements = await getRandomStatement("1s-moskva")
       <div class="header__wrap">
         <div class="header__slider">
           <div class="header__offer">
-            <img src="img/ccc.png" alt="" class="header__img">
+            <img src="/img/ccc.png" alt="" class="header__img">
             
           </div>
           <div class="header__offer">
-            <img src="img/ccc.png" alt="" class="header__img">
+            <img src="/img/ccc.png" alt="" class="header__img">
             
           </div>
           <div class="header__offer">
-            <img src="img/ccc.png" alt="" class="header__img">
+            <img src="/img/ccc.png" alt="" class="header__img">
             
           </div>
         </div>
@@ -155,7 +163,7 @@ const statements = await getRandomStatement("1s-moskva")
               </li>
             </ul>
             <div class="main__imgwrap">
-              <img src="img/service.png" alt="" class="main__img">
+              <img src="/img/service.png" alt="" class="main__img">
             </div>
           </div>
         </div>
@@ -176,7 +184,7 @@ const statements = await getRandomStatement("1s-moskva")
               </li>
             </ul>
             <div class="main__imgwrap">
-              <img src="img/service.png" alt="" class="main__img">
+              <img src="/img/service.png" alt="" class="main__img">
             </div>
           </div>
         </div>
@@ -200,7 +208,7 @@ const statements = await getRandomStatement("1s-moskva")
               </li>
             </ul>
             <div class="main__imgwrap">
-              <img src="img/service.png" alt="" class="main__img">
+              <img src="/img/service.png" alt="" class="main__img">
             </div>
           </div>
         </div>
@@ -221,7 +229,7 @@ const statements = await getRandomStatement("1s-moskva")
               </li>
             </ul>
             <div class="main__imgwrap">
-              <img src="img/service.png" alt="" class="main__img">
+              <img src="/img/service.png" alt="" class="main__img">
             </div>
           </div>
         </div>
@@ -241,7 +249,7 @@ const statements = await getRandomStatement("1s-moskva")
           <form action="success.php" class="header__form" method="post">
             <input type="text" name="name" required="" placeholder="Имя"  class="form-control form__field">
             <input type="text" name="tel" required="" placeholder="+49(...)"  class="form-control form__field">
-            <button class="header__btn support__btn bttn " data-submit><img src="img/call-black.svg" alt="">Заказать звонок</button>
+            <button class="header__btn support__btn bttn " data-submit><img src="/img/call-black.svg" alt="">Заказать звонок</button>
           </form>
           <p class="support__policy">
             Нажатием кнопки я принимаю условия Оферты по использованию сайта и согласен с Политикой конфиденциальности
@@ -269,7 +277,7 @@ const statements = await getRandomStatement("1s-moskva")
               </li>
             </ul>
             <div class="main__imgwrap">
-              <img src="img/service.png" alt="" class="main__img">
+              <img src="/img/service.png" alt="" class="main__img">
             </div>
           </div>
         </div>
@@ -277,7 +285,7 @@ const statements = await getRandomStatement("1s-moskva")
           <div class="support__name">
             <h2>Акции</h2>
           </div>
-          <img src="img/actions.png" alt="" class="">
+          <img src="/img/actions.png" alt="" class="">
         </div>
       </div>
     </div>
@@ -354,13 +362,13 @@ const statements = await getRandomStatement("1s-moskva")
           <div class="rewards">
             <div class="rewards__wrap">
               <div class="rewards__item d-flex">
-                <img src="img/part1.png" alt="" class="rewards__img">
-                <img src="img/part2.png" alt="">
+                <img src="/img/part1.png" alt="" class="rewards__img">
+                <img src="/img/part2.png" alt="">
               </div>
               <div class="rewards__item rev__inform_border d-flex">
                 <div class="rewards__item_m">
                   <div class="d-flex">
-                    <img src="img/part3.png" alt="">
+                    <img src="/img/part3.png" alt="">
                     <p class="rewars__text">
                       ФГБУ «Канал <br>имени Москвы» 
                     </p>
@@ -373,13 +381,13 @@ const statements = await getRandomStatement("1s-moskva")
             </div>
             <div class="rewards__wrap">
               <div class="rewards__item d-flex">
-                <img src="img/part1.png" alt="" class="rewards__img">
-                <img src="img/part2.png" alt="">
+                <img src="/img/part1.png" alt="" class="rewards__img">
+                <img src="/img/part2.png" alt="">
               </div>
               <div class="rewards__item rev__inform_border d-flex">
                 <div class="rewards__item_m">
                   <div class="d-flex">
-                    <img src="img/part3.png" alt="">
+                    <img src="/img/part3.png" alt="">
                     <p class="rewars__text">
                       ФГБУ «Канал <br>имени Москвы» 
                     </p>
@@ -392,13 +400,13 @@ const statements = await getRandomStatement("1s-moskva")
             </div>
             <div class="rewards__wrap">
               <div class="rewards__item d-flex">
-                <img src="img/part1.png" alt="" class="rewards__img">
-                <img src="img/part2.png" alt="">
+                <img src="/img/part1.png" alt="" class="rewards__img">
+                <img src="/img/part2.png" alt="">
               </div>
               <div class="rewards__item rev__inform_border d-flex">
                 <div class="rewards__item_m">
                   <div class="d-flex">
-                    <img src="img/part3.png" alt="">
+                    <img src="/img/part3.png" alt="">
                     <p class="rewars__text">
                       ФГБУ «Канал <br>имени Москвы» 
                     </p>
@@ -442,7 +450,7 @@ const statements = await getRandomStatement("1s-moskva")
           <div class="rev__wrapper">
             <p class="rev__title">Наши публикации в СМИ</p>
           </div>
-          <img src="img/smi.png" alt="">
+          <img src="/img/smi.png" alt="">
         </div>
       </div>
     </div>
@@ -463,7 +471,7 @@ const statements = await getRandomStatement("1s-moskva")
               <option value="AL">сфера занятости</option>
               <option value="WY">сфера занятости</option>
             </select>
-            <button class="work__btn bttn"><img src="img/search.svg" alt="">Найти вакансию</button>
+            <button class="work__btn bttn"><img src="/img/search.svg" alt="">Найти вакансию</button>
           </form>
         </div>
         <div class="work__about">
@@ -502,18 +510,18 @@ const statements = await getRandomStatement("1s-moskva")
         </div>
       </div>
       <div class="work__wrap">
-        <img src="img/logo-footer.png" alt="" class="work__logo">
+        <img src="/img/logo-footer.png" alt="" class="work__logo">
         <div class="work__items">
           <p class="work__texts">
             Мы поддерживаем ваш бизнес 24 часа 7 дней в неделю
-            <a href="#" class="header__btn bttn work__btn support__btn work__bttn" data-submit><img src="img/call-black.svg" alt="">Заказать звонок</a>
+            <a href="#" class="header__btn bttn work__btn support__btn work__bttn" data-submit><img src="/img/call-black.svg" alt="">Заказать звонок</a>
           </p>
         </div>
         <div class="work__items">
           <form action="success.php" class="work__form" method="post">
             <div class="input__wrap">
               <input type="text" name="search" required="" placeholder="Я ищу..."  class="form-control form__field">
-              <button type="button"><img src="img/searchs.svg" alt="" class="input__search"></button>
+              <button type="button"><img src="/img/searchs.svg" alt="" class="input__search"></button>
             </div>
           </form>
         </div>
@@ -639,19 +647,19 @@ const statements = await getRandomStatement("1s-moskva")
             </div>
             <div class="footer__flex">
               <a href="#" target="_blank">
-                <img src="img/insta.svg" alt="">
+                <img src="/img/insta.svg" alt="">
               </a>
               <a href="#" target="_blank">
-                <img src="img/facebook.svg" alt="">
+                <img src="/img/facebook.svg" alt="">
               </a>
               <a href="#" target="_blank">
-                <img src="img/vk.svg" alt="">
+                <img src="/img/vk.svg" alt="">
               </a>
               <a href="#" target="_blank">
-                <img src="img/twi.svg" alt="">
+                <img src="/img/twi.svg" alt="">
               </a>
               <a href="#" target="_blank">
-                <img src="img/youtube.svg" alt="">
+                <img src="/img/youtube.svg" alt="">
               </a>
             </div>
           </div>
@@ -674,7 +682,7 @@ const statements = await getRandomStatement("1s-moskva")
               Режим работы:  Пн - Пт: 9.00 - 20.00 <br>
               Email:  moscow@programister.ru <br>
               <a href="tel:88005514510">8 (800) 551-45-10</a>
-              <a href="tel:89585825848"><img src="img/telegram-white.svg" alt=""><img src="img/whatsapp-white.svg" alt=""><img src="img/viber-white.svg" alt="">8 (958) 582-58-48</a>
+              <a href="tel:89585825848"><img src="/img/telegram-white.svg" alt=""><img src="/img/whatsapp-white.svg" alt=""><img src="/img/viber-white.svg" alt="">8 (958) 582-58-48</a>
             </p>
           </div>
         </div>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { getLangCountryStaticPaths } from "../../../../lib/seo/staticPaths";
+import { getCitiesByLangCountry } from "../../../../lib/airtable/pages";
+
+const SITE = "https://programister.ru";
+
+export const getStaticPaths = getLangCountryStaticPaths;
+
+const { lang, country } = Astro.params;
+const cities = await getCitiesByLangCountry({ lang, country });
+
+const canonical = `${SITE}/${lang}/${country}/cities/`;
+---
+
+<BaseLayout
+  title={`Города — ${lang.toUpperCase()} / ${country.toUpperCase()} | Programister`}
+  description="Список городов присутствия и оказания услуг"
+  canonical={canonical}
+>
+  <main class="container">
+    <h1>Города</h1>
+
+    <ul>
+      {(cities ?? []).map((c) => (
+        <li>
+          <a href={`/${lang}/${country}/${c.slug}/`}>
+            {c.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </main>
+</BaseLayout>

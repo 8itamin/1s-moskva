@@ -1,0 +1,21 @@
+---
+import { list } from "../../lib/airtable";
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const langs = await list("Lang"); // вернёт [{ id, slug, name, ... }]
+  return langs
+    .filter((l: { slug: any; }) => l?.slug)
+    .map((l: { slug: any; }) => ({
+      params: { lang: l.slug },
+    }));
+}
+
+const { lang } = Astro.params;
+---
+<html>
+  <body>
+    <h1>Lang: {lang}</h1>
+  </body>
+</html>

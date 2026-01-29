@@ -11,6 +11,10 @@
   "dependencies": {
     "airtable": "^0.12.2",
     "astro": "^5.16.15",
+    "inputmask": "^5.0.9",
+    "jquery": "^3.7.1",
+    "select2": "^4.1.0-rc.0",
+    "slick-carousel": "^1.8.1",
     "zod": "^3.25.76"
   },
   "devDependencies": {
