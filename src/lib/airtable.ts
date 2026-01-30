@@ -75,6 +75,9 @@ export async function getHome(citySlug: string) {
   return {
     city: city?.name ?? "Москва",
     phone: city?.phone ?? "",
+    phone_slug: city?.phone_slug ?? "",
+    messenger: city?.messenger ?? "",
+    messenger_slug: city?.messenger_slug ?? "",
     address: city?.address ?? "",
     hero_title: city?.hero_title ?? "Проконсультируем прямо сейчас!",
     hero_subtitle: city?.hero_subtitle ?? "",
@@ -91,4 +94,3 @@ export async function getCitiesList() {
     .map((city: any) => ({ slug: city.slug, name: city.name }))
     .sort((a: any, b: any) => a.name.localeCompare(b.name, "ru"));
 }
-
