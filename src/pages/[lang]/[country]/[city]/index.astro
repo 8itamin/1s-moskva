@@ -15,6 +15,8 @@ const statements = await getRandomStatement("1s-moskva")
 const cities = await getCitiesList();
 const currentCity = cities.find((item) => item.slug === citySlug);
 const currentCityName = currentCity?.name ?? data.city;
+const phoneLink = data.phone_slug || data.phone;
+const messengerLink = data.messenger_slug || data.messenger;
 
 ---
 <BaseLayout
@@ -70,8 +72,8 @@ const currentCityName = currentCity?.name ?? data.city;
                 {currentCityName}
               </a>
             </div>
-            <a href="tel:4951280400" class="nav__call">
-              <img src="/img/call-violet.svg" alt="">(495) 128-04-00
+            <a href={phoneLink} class="nav__call">
+              <img src="/img/call-violet.svg" alt="">{data.phone}
             </a>
           </div>
           <div class="nav__city-modal" data-city-modal hidden>
@@ -96,8 +98,8 @@ const currentCityName = currentCity?.name ?? data.city;
             <a href="#"><img src="/img/viber.svg" alt=""></a>
             <a href="#"><img src="/img/whatsapp.svg" alt=""></a>
             <a href="#"><img src="/img/telegram.svg" alt=""></a>
-            <a href="tel:89585825848" class="nav__coll">
-              8 (958) 582-58-48
+            <a href={messengerLink} class="nav__coll">
+              {data.messenger}
             </a>
           </div>
           <div class="nav__tel">
