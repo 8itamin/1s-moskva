@@ -264,6 +264,13 @@ button {
 }
 .header__slider {
 	max-width: 771px;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.2s ease-in;
+}
+.header__slider.slick-initialized {
+	opacity: 1;
+	visibility: visible;
 }
 .header__info {
 	max-width: 339px;
