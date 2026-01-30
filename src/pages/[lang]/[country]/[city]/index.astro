@@ -83,6 +83,24 @@ const currentCityName = currentCity?.name ?? data.city;
               <img src="/img/call-violet.svg" alt="">(495) 128-04-00
             </a>
           </div>
+          <div class="nav__city-modal" data-city-modal hidden>
+            <div class="nav__city-backdrop" data-city-modal-close></div>
+            <div class="nav__city-dialog" role="dialog" aria-modal="true" aria-label="Выбор города">
+              <button class="nav__city-close" type="button" data-city-modal-close aria-label="Закрыть">
+                ×
+              </button>
+              <h3 class="nav__city-title">Выберите город</h3>
+              <ul class="nav__city-list">
+                {cities.map((item) => (
+                  <li>
+                    <a class="nav__city-link" href={`/ru/ru/${item.slug}`}>
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
           <div class="nav__social d-flex">
             <a href="#"><img src="/img/viber.svg" alt=""></a>
             <a href="#"><img src="/img/whatsapp.svg" alt=""></a>
