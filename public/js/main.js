@@ -84,7 +84,10 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   openButtons.forEach((button) => {
-    button.addEventListener("click", openModal);
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      openModal();
+    });
   });
 
   closeButtons.forEach((button) => {

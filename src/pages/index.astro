@@ -58,18 +58,9 @@ const currentCityName = currentCity?.name ?? data.city;
         <div class="nav__contacts d-flex">
           <div class="nav__phone d-flex">
             <div class="nav__city">
-              <details class="nav__city-dropdown">
-                <summary class="nav__city-current">{currentCityName}</summary>
-                <ul class="nav__city-list">
-                  {cities.map((city) => (
-                    <li>
-                      <a class="nav__city-link" href={`/ru/ru/${city.slug}`}>
-                        {city.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </details>
+              <a class="nav__city-trigger" href="#" data-city-modal-open>
+                {currentCityName}
+              </a>
             </div>
             <a href="tel:4951280400" class="nav__call">
               <img src="img/call-violet.svg" alt="">(495) 128-04-00
