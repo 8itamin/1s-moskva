@@ -162,6 +162,71 @@ button {
 	line-height: 25px;
 	margin-left: 19px;
 }
+.nav__city-trigger {
+	background: transparent;
+	border: none;
+	padding: 0;
+	font: inherit;
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-thickness: 1px;
+	text-underline-offset: 2px;
+	cursor: pointer;
+}
+.nav__city-modal[hidden] {
+	display: none;
+}
+.nav__city-modal {
+	position: fixed;
+	inset: 0;
+	z-index: 2000;
+}
+.nav__city-backdrop {
+	position: absolute;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.55);
+}
+.nav__city-dialog {
+	position: relative;
+	background: #ffffff;
+	max-width: 520px;
+	width: calc(100% - 32px);
+	margin: 120px auto 0;
+	padding: 24px 24px 28px;
+	border-radius: 8px;
+	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+.nav__city-title {
+	margin: 0 0 16px;
+	font-size: 22px;
+}
+.nav__city-close {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	border: none;
+	background: transparent;
+	font-size: 24px;
+	cursor: pointer;
+	line-height: 1;
+}
+.nav__city-list {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 8px;
+	max-height: 60vh;
+	overflow-y: auto;
+}
+.nav__city-link {
+	color: #000000;
+	text-decoration: none;
+	font-size: 18px;
+}
+.nav__city-link:hover {
+	text-decoration: underline;
+}
 .nav__call {
 	color: #000000;
 	font-weight: bold;

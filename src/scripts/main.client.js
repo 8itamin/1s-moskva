@@ -61,4 +61,51 @@ export async function initMain() {
 
   $(window).on("scroll load resize", runSpincrementIfNeeded);
   runSpincrementIfNeeded();
+
+  const bindCityModal = () => {
+    const triggers = document.querySelectorAll("[data-city-modal-open]");
+    if (!triggers.length) return;
+
+    const openModal = (modal) => {
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeModal = (modal) => {
+      modal.hidden = true;
+      document.body.style.overflow = "";
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        const container = trigger.closest(".nav__contacts") ?? document;
+        const modal =
+          container.querySelector("[data-city-modal]") ??
+          document.querySelector("[data-city-modal]");
+        if (modal) openModal(modal);
+      });
+    });
+
+    document.querySelectorAll("[data-city-modal]").forEach((modal) => {
+      modal
+        .querySelectorAll("[data-city-modal-close]")
+        .forEach((button) => {
+          button.addEventListener("click", () => closeModal(modal));
+        });
+
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal(modal);
+      });
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      document.querySelectorAll("[data-city-modal]").forEach((modal) => {
+        if (!modal.hidden) closeModal(modal);
+      });
+    });
+  };
+
+  bindCityModal();
 }
