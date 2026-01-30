@@ -1,9 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getHome, getRandomStatement } from "../lib/airtable";
+import { getCitiesList, getHome, getRandomStatement } from "../lib/airtable";
 
-const data = await getHome("1s-moskva");
+const citySlug = "1s-moskva";
+const data = await getHome(citySlug);
 const statements = await getRandomStatement("1s-moskva")
+const cities = await getCitiesList();
+const currentCity = cities.find((city) => city.slug === citySlug);
+const currentCityName = currentCity?.name ?? data.city;
 ---
 <BaseLayout
   title={`Услуги 1С в ${data.city}`}
@@ -54,7 +58,18 @@ const statements = await getRandomStatement("1s-moskva")
         <div class="nav__contacts d-flex">
           <div class="nav__phone d-flex">
             <div class="nav__city">
-              Москва
+              <details class="nav__city-dropdown">
+                <summary class="nav__city-current">{currentCityName}</summary>
+                <ul class="nav__city-list">
+                  {cities.map((city) => (
+                    <li>
+                      <a class="nav__city-link" href={`/ru/ru/${city.slug}`}>
+                        {city.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
             </div>
             <a href="tel:4951280400" class="nav__call">
               <img src="img/call-violet.svg" alt="">(495) 128-04-00
