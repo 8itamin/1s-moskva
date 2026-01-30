@@ -72,8 +72,9 @@ const messengerLink = data.messenger_slug || data.messenger;
                 {currentCityName}
               </a>
             </div>
-            <a href={phoneLink} class="nav__call">
-              <img src="/img/call-violet.svg" alt="">{data.phone}
+            <a href={`tel:${phoneLink}`} class="nav__call">
+              <img src="/img/call-violet.svg" alt="Позвонить" />
+              {data.phone}
             </a>
           </div>
           <div class="nav__city-modal" data-city-modal hidden>
@@ -95,10 +96,10 @@ const messengerLink = data.messenger_slug || data.messenger;
             </div>
           </div>
           <div class="nav__social d-flex">
-            <a href="#"><img src="/img/viber.svg" alt=""></a>
-            <a href="#"><img src="/img/whatsapp.svg" alt=""></a>
-            <a href="#"><img src="/img/telegram.svg" alt=""></a>
-            <a href={messengerLink} class="nav__coll">
+            <a href="https://max.ru/u/f9LHodD0cOI1XyMzfLM0sqwW1r6EG4dNBiFf4Dzxd471D8VKUhf7CTbBzPE" aria-label="Max"><img src="/img/max4mini.png" alt="Max"></a>
+            <a href={`https://wa.me/${messengerLink}`} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><img src="/img/whatsapp.svg" alt="WhatsApp"></a>
+            <a href={`https://t.me/${messengerLink}`} target="_blank" rel="noopener noreferrer" aria-label="Telegram"><img src="/img/telegram.svg" alt="Telegram"></a>
+            <a href={`https://wa.me/${messengerLink}`} target="_blank"  class="nav__coll">
               {data.messenger}
             </a>
           </div>
@@ -130,8 +131,8 @@ const messengerLink = data.messenger_slug || data.messenger;
             <a href="tel:89585825848">
               <img src="/img/telegram.svg" alt="">
             </a>
-            <a href="tel:89585825848">
-              <img src="/img/viber.svg" alt="">
+            <a href="https://max.ru/u/f9LHodD0cOI1XyMzfLM0sqwW1r6EG4dNBiFf4Dzxd471D8VKUhf7CTbBzPE">
+              <img src="/img/max2mini.png" alt="">
             </a>
             <a href="tel:89585825848">
               <img src="/img/whatsapp.svg" alt="">
