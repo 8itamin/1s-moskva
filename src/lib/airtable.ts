@@ -83,4 +83,12 @@ export async function getHome(citySlug: string) {
   };
 }
 
+export async function getCitiesList() {
+  const cities = await list("Cities");
+
+  return cities
+    .filter((city: any) => city?.slug && city?.name)
+    .map((city: any) => ({ slug: city.slug, name: city.name }))
+    .sort((a: any, b: any) => a.name.localeCompare(b.name, "ru"));
+}
 

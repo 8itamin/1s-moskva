@@ -43,7 +43,7 @@ $(document).ready(function() {
     });
 });
 
-    $(document).ready(function () {
+$(document).ready(function () {
  
     var show = true;
     var countbox = ".work__about";
@@ -64,4 +64,38 @@ $(document).ready(function() {
         }
     });
  
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.querySelector("[data-city-modal]");
+  const openButtons = document.querySelectorAll("[data-city-modal-open]");
+  if (!modal || openButtons.length === 0) return;
+
+  const closeButtons = modal.querySelectorAll("[data-city-modal-close]");
+
+  const openModal = () => {
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    modal.hidden = true;
+    document.body.style.overflow = "";
+  };
+
+  openButtons.forEach((button) => {
+    button.addEventListener("click", openModal);
+  });
+
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", closeModal);
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.hidden) closeModal();
+  });
 });

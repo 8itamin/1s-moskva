@@ -1,9 +1,13 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import { getHome, getRandomStatement } from "../lib/airtable";
+import { getCitiesList, getHome, getRandomStatement } from "../lib/airtable";
 
-const data = await getHome("1s-moskva");
+const citySlug = "1s-moskva";
+const data = await getHome(citySlug);
 const statements = await getRandomStatement("1s-moskva")
+const cities = await getCitiesList();
+const currentCity = cities.find((city) => city.slug === citySlug);
+const currentCityName = currentCity?.name ?? data.city;
 ---
 <BaseLayout
   title={`Услуги 1С в ${data.city}`}
@@ -54,11 +58,31 @@ const statements = await getRandomStatement("1s-moskva")
         <div class="nav__contacts d-flex">
           <div class="nav__phone d-flex">
             <div class="nav__city">
-              Москва
+              <button class="nav__city-trigger" type="button" data-city-modal-open>
+                {currentCityName}
+              </button>
             </div>
             <a href="tel:4951280400" class="nav__call">
               <img src="img/call-violet.svg" alt="">(495) 128-04-00
             </a>
+          </div>
+          <div class="nav__city-modal" data-city-modal hidden>
+            <div class="nav__city-backdrop" data-city-modal-close></div>
+            <div class="nav__city-dialog" role="dialog" aria-modal="true" aria-label="Выбор города">
+              <button class="nav__city-close" type="button" data-city-modal-close aria-label="Закрыть">
+                ×
+              </button>
+              <h3 class="nav__city-title">Выберите город</h3>
+              <ul class="nav__city-list">
+                {cities.map((city) => (
+                  <li>
+                    <a class="nav__city-link" href={`/ru/ru/${city.slug}`}>
+                      {city.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
           <div class="nav__social d-flex">
             <a href="#"><img src="img/viber.svg" alt=""></a>
