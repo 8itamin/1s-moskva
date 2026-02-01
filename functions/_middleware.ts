@@ -31,8 +31,8 @@ export const onRequest: PagesFunction = async (context) => {
   // Если страна или город неопределены, редиректим на дефолтную страницу
   const defaultTarget = "/ru/ru/1s-moskva/";
 
-  // Если не определена страна, город или они неизвестны — редиректим на дефолт
-  if (countrySlug === "th" || !citySlug) {
+  // Проверяем, если путь неполный, перенаправляем на дефолтную страницу
+  if (url.pathname === "/ru" || url.pathname === "/ru/ru" || countrySlug === "th" || !citySlug) {
     return Response.redirect(new URL(defaultTarget, url.origin).toString(), 302);
   }
 
