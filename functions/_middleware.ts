@@ -10,7 +10,7 @@ export const onRequest: PagesFunction = async (context) => {
   const lang = acceptLang.toLowerCase().startsWith("ru") ? "ru" : "ru"; // Здесь просто фиксируем "ru"
 
   // 2) Страна из Cloudflare
-  const country = (request as any).cf?.country || "RU"; // ISO-2
+  const country = (request as any).cf?.country || "RU"; // ISO-2 (если нет страны — используем RU)
   const countrySlug = country.toLowerCase(); // Пример: "ru"
 
   // 3) Город из Cloudflare (может быть null)
@@ -28,10 +28,14 @@ export const onRequest: PagesFunction = async (context) => {
   // Формируем итоговый путь
   const target = `/${lang}/${countrySlug}/${citySlug}/`;
 
-  // Если это не страна/город из маппинга, то используем дефолтную страницу
+  // Если страна или город неопределены, редиректим на дефолтную страницу
   const defaultTarget = "/ru/ru/1s-moskva/";
 
+  // Если не определена страна, город или они неизвестны — редиректим на дефолт
+  if (countrySlug === "th" || !citySlug) {
+    return Response.redirect(new URL(defaultTarget, url.origin).toString(), 302);
+  }
+
   // Возвращаем редирект на нужную страницу
-  return Response.redirect(new URL(target, url.origin).toString(), 302) || 
-         Response.redirect(new URL(defaultTarget, url.origin).toString(), 302);
+  return Response.redirect(new URL(target, url.origin).toString(), 302);
 };
